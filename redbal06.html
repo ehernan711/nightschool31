@@ -1,0 +1,49 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+</head>
+<body>
+<button onclick="redballobj.move(-3,0);">Move Left</button>
+<button onclick="redballobj.move(0,3);">Move Down</button>
+<button onclick="redballobj.move(0,-3);">Move Up</button>
+<button onclick="redballobj.move(3,-3);">Move Up Right</button>
+<button onclick="redballobj.move(3,0);">Move Right</button>
+<div id="game"></div>
+</body>
+
+<script>
+// declare global variables
+var redballobj;
+			
+//this is a javascript object 
+function AnimationObject(){
+  //this method creates the html image tag inside the game div and sets is css position to absolute
+  this.show = function(){
+    var game = $("#game");
+    game.append("<img id='"+this.cssid+"' src='"+this.imgsrc+"'/>");
+    this.element = $("#" + this.cssid);
+    this.element.css({position:'absolute'});
+  };
+  this.move=function(dx,dy){
+    this.element.animate({ "left": "+=" +dx+ "px", "top": "+=" +dy+ "px" }, "slow" );
+  }
+}
+			
+$(document).ready(function(){
+  //http://stackoverflow.com/questions/8111446/turning-json-strings-into-objects-with-methods
+  var fromServer = '{"cssid":"redball","imgsrc":"http://www.icstars.org/files/redball.jpg"}';
+  redballobj=new AnimationObject();
+  jQuery.extend(redballobj, JSON.parse(fromServer));
+  console.log(redballobj.cssid);
+  redballobj.show();
+  
+
+  //looping - next time extend to array of json objects in the ‘server string’ and create a loop to instantiate multiple objects
+  //http://stackoverflow.com/questions/800593/loop-through-json-object-list
+  
+});
+
+
+  
+</script>
+</html>
